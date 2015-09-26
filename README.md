@@ -1,3 +1,4 @@
 # mvc
-a framework writen by me
+a small php mvc framework writen by me
+just develop it.
 thank you!
