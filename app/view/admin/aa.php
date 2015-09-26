@@ -6,10 +6,6 @@
 </head>
 <body>
 haahahahahah
-<a href="<?php echo __URL__ . "m=admin&a=bb"; ?>">链接</a>
-<?php
-echo $a;
-print_r($data);
-?>
+<a href="<?php echo __URL__ . "m=portal&a=aa"; ?>">链接</a>
 </body>
 </html>

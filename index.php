@@ -14,6 +14,8 @@ define('__URL__',$url);
 //echo __URL__;
 require_once('config/conf.php');
 require_once('lib/common.class.php');
+require_once('core/model/Model.class.php');
+require_once('lib/function.php');
 $query_string = $_SERVER['QUERY_STRING'];
 $common = common::getInstance();
 $query_string = $common->get_query_string($query_string);

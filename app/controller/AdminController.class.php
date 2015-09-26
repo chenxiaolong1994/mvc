@@ -16,6 +16,12 @@ public function aa($data) {
     $str = "hello world";
     $this->assign("a",$str);
     $this->assign("data",$data);
+    $article = D('article');
+    $adata = array("title" => "titletwo","content" => "content11111111","info" => "description");
+     if ($article->add($adata)) {
+         echo "插入数据成功";
+     }
+
     $this->display();
     //echo "aa function";
 }

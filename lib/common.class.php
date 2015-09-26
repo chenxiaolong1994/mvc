@@ -34,14 +34,14 @@ class common{
     }
 
     public function route($module,$action,$arr = NULL) {
-        $class_path = CONTROLLER_PATH . '/' . ucfirst($module) . "Controller.class.php";
-        if (!(file_exists(CONTROLLER_PATH . '/' . ucfirst($module) . "Controller.class.php"))) {
+        $class_path = CONTROLLER_PATH  . ucfirst($module) . "Controller.class.php";
+        if (!(file_exists(CONTROLLER_PATH  . ucfirst($module) . "Controller.class.php"))) {
             echo "²»´æÔÚ" . $module . "Ä£¿é";
             return false;
         };
-        require_once(CORE_CONTROLLER . '/' . "Controller.class.php");
+        require_once(CORE_CONTROLLER  . "Controller.class.php");
         require_once($class_path);
-        $tpl = VIEW_PATH . "/" . $module . "/" . $action . ".php" ;
+        $tpl = VIEW_PATH  . $module . "/" . $action . ".php" ;
         $m = $module . "Controller";
         $m = ucfirst($m);
         $obj = $m::getInstance($m,$tpl);

@@ -30,7 +30,7 @@ class Controller
     }
 
     public function display($tpl=NULL) {
-       if ($tpl !== NULL) $tpl = VIEW_PATH . "/" . $tpl . ".php";
+       if ($tpl !== NULL) $tpl = VIEW_PATH  . $tpl . ".php";
         $this->view->display($tpl);
         //var_dump($this->view);
     }

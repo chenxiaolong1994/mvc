@@ -1,0 +1,12 @@
+公用模块：增加 log 功能，打印变量，存储sql查询语句，增加公用函数，D 函数等
+
+controller模块：error，success提示信息函数
+
+model：完善 Model 类，各种方法，要求使其封装后的函数灵活，可以连贯操作,查询条件where研究thinkphp
+
+view:在视图层引入smarty模板引擎
+
+路由：pathinfo模式，路由方式要灵活
+
+命名空间
+
