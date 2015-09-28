@@ -8,6 +8,7 @@
 
 define('APP_PATH',ROOT . '/app/');
 define('DATA_PATH',ROOT . '/data/');
+define('LOG_PATH',ROOT . '/data/logs/');
 define('DB_PATH',ROOT . '/db/');
 define('lib_PATH',ROOT . '/lib/');
 define('PUBLIC_PATH',ROOT . '/public/');

@@ -19,9 +19,10 @@ public function display($tpl=NULL) {
         echo $this->tplfile . "模板文件不存在";
         return false;
     }
-
-    foreach($this->data as $k => $v) {
-        $$k = $v;
+    if ($this->data != NULL) {
+        foreach ($this->data as $k => $v) {
+            $$k = $v;
+        }
     }
 require_once($this->tplfile);
 }

@@ -8,6 +8,11 @@
  */
 class Model
 {
+    private $sql=array(
+        "field" => "",
+        "where" => "",
+        "order" => "",
+        "limit" => "");
     static $instance = '';
     public $connect = '';
     public $db = '';
@@ -39,10 +44,14 @@ class Model
     }
 
     public function select() {
-        $sql = "select * from $this->table";
+        $str=$this->SelectJudge();
+        $sql =  $str ? $str : "select * from $this->table";
+        $resarr = array();
         $res = mysql_query($sql);
-        $result = mysql_fetch_assoc($res);
-        return $result ? $result : "表中无数据";
+        while ($result = mysql_fetch_assoc($res)) {
+            $resarr[] = $result;
+        }
+        return $resarr ? $resarr : "查询不到数据";
     }
 
     public function add($data) {
@@ -58,17 +67,43 @@ class Model
         return true;
     }
 
-    public function save() {}
+    public function field($_field="*") {
+        $this->sql['field'] = $_field;
+        return $this;
+    }
 
-    public function where(){}
+    public function where($_where='1=1') {
+        $_where = explode("=",str_replace(" ","",$_where));
+        $_where[1] = "'$_where[1]'";
+        $_where = implode("=",$_where);
+        $this->sql["where"]="WHERE ".$_where;
+        return $this;
+    }
 
-    public function create() {}
+    public function order($_order='id DESC') {
+        $this->sql["order"]="ORDER BY ".$_order;
+        return $this;
+    }
 
-    public function sql() {}
+    public function limit($_limit='30') {
+        $this->sql["limit"]="LIMIT 0,".$_limit;
+        return $this;
+    }
 
-    public function limit(){}
-
-    public function delete() {}
+    public function SelectJudge() {
+        //$field = $this->sql['field'];
+        if (empty($this->sql['field'])) {
+            $this->sql['field'] = "*";
+        }
+        $field = $this->sql['field'];
+        unset($this->sql['field']);
+        $SqlStr = implode("",$this->sql);
+        if (! empty($SqlStr)) {
+            return "select ". $field . " from " . $this->table . " " . implode(" ",$this->sql);
+        } else {
+            return false;
+        }
+    }
 
 
 }

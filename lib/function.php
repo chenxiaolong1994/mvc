@@ -14,3 +14,9 @@ function D($modelname) {
     require_once($modelPath);
     return Model::getInstance($model);
 }
+
+function WriteLog($data) {
+    $filename = LOG_PATH . "log.txt";
+    $fp = fopen($filename,"a+b");
+    fwrite($fp,var_export($data));
+}
