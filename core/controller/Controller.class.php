@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2015/9/23
- * Time: 15:12
- */
-
 require_once('ViewController.class.php');
 class Controller
 {

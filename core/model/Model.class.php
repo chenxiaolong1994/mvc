@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2015/9/25
- * Time: 22:21
- */
 class Model
 {
     private $sql=array(
@@ -18,20 +12,21 @@ class Model
     public $db = '';
     public $table = '';
     public $tablesarr = array();
+    public $sqlstr = '';
     public function __construct($host,$pwd,$user,$name,$model) {
-          $this->connect = mysql_connect($host,$user,$pwd);
-          $this->db = mysql_select_db($name);
+          $this->connect = mysqli_connect($host,$user,$pwd);
+          $this->db = mysqli_select_db($this->connect, $name);
           $this->table = DB_PREFIX . strtolower(substr_replace($model,'',-5,5));
           $sql = "show tables";
-          $res = mysql_query($sql);
-       while ($result = mysql_fetch_assoc($res)) {
+          $res = mysqli_query($this->connect, $sql);
+       while ($result = mysqli_fetch_assoc($res)) {
            $this->tablerr[] = $result;
-       }
+        }
         foreach($this->tablerr as $k => $v) {
             $this->tables[] = implode('',$v);
         }
         if (!(in_array($this->table,$this->tables))) {
-            exit("数据库中" . $this->table . "表不存在");
+            exit("TABLE " . $this->table . " NOT FOUND");
         }
 
     }
@@ -43,15 +38,35 @@ class Model
         return self::$instance;
     }
 
+    public function getSql(){
+        return $this->sqlstr;
+    }
+
     public function select() {
-        $str=$this->SelectJudge();
-        $sql =  $str ? $str : "select * from $this->table";
+        $sql=$this->SelectJudge();
         $resarr = array();
-        $res = mysql_query($sql);
-        while ($result = mysql_fetch_assoc($res)) {
+        $res = mysqli_query($this->connect, $sql);
+        while ($result = mysqli_fetch_assoc($res)) {
             $resarr[] = $result;
         }
-        return $resarr ? $resarr : "查询不到数据";
+        return $resarr ? $resarr : "DATA EMPTY";
+    }
+
+    public function findOne() {
+        $this->limit(1);
+        $res =  $this->select();
+        if (is_array($res)) {
+            return $res[0];
+        }
+    }
+
+    public function exec($sql) {
+        if(!$sql) return "SQL IS NULL";
+        $res = mysqli_query($this->connect, $sql);
+        while ($result = mysqli_fetch_assoc($res)) {
+            $resarr[] = $result;
+        }
+        return $resarr ? $resarr : "DATA EMPTY";
     }
 
     public function add($data) {
@@ -60,8 +75,8 @@ class Model
         $fields = implode(',',$keys);
         $values = implode('\',\'',$val);
         $sql = "insert into " . $this->table . " (" .  $fields . ") values ('" . $values . "')";
-        if (!($res = mysql_query($sql))) {
-            echo mysql_error();
+        if (!($res = mysqli_query($this->connect, $sql))) {
+            echo mysqli_error($this->connect);
             return false;
         }
         return true;
@@ -90,6 +105,31 @@ class Model
         return $this;
     }
 
+    public function delete() {
+        $sql = "delete from ".$this->table. implode(" ", $this->sql);
+        $sql = trim($sql);
+        if (!($res = mysqli_query($this->connect, $sql))) {
+            echo mysqli_error($this->connect);
+            return false;
+        }
+        return true;
+    }
+
+    public function update($data) {
+        $str = '';
+        foreach ($data as $k=>$v) {
+            $str .= "`$k`='$v',";
+        }
+        $str = ' set '. trim($str,',');
+        $sql = "update ".$this->table.$str.implode(" ", $this->sql);
+        $sql = trim($sql);
+        if (!($res = mysqli_query($this->connect, $sql))) {
+            echo mysqli_error($this->connect);
+            return false;
+        }
+        return true;
+    }
+
     public function SelectJudge() {
         //$field = $this->sql['field'];
         if (empty($this->sql['field'])) {
@@ -99,9 +139,10 @@ class Model
         unset($this->sql['field']);
         $SqlStr = implode("",$this->sql);
         if (! empty($SqlStr)) {
+            $this->sqlstr = "select ". $field . " from " . $this->table . " " . implode(" ",$this->sql);
             return "select ". $field . " from " . $this->table . " " . implode(" ",$this->sql);
         } else {
-            return false;
+            return "select * from $this->table";
         }
     }
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2015/9/23
- * Time: 14:42
- */
 class common{
     private static $instance;
     static public function getInstance() {
@@ -36,7 +30,7 @@ class common{
     public function route($module,$action,$arr = NULL) {
         $class_path = CONTROLLER_PATH  . ucfirst($module) . "Controller.class.php";
         if (!(file_exists(CONTROLLER_PATH  . ucfirst($module) . "Controller.class.php"))) {
-            echo "不存在" . $module . "模块";
+            echo "MODULE " . $module . "NOT FOUND";
             return false;
         };
         require_once(CORE_CONTROLLER  . "Controller.class.php");
@@ -49,7 +43,7 @@ class common{
          //print_r($arr);
         $method = get_class_methods($obj);
         if (!(in_array($action,$method))) {
-            echo $module . "模块不存在" . $action . "方法";
+            echo $module . " FUNCTION " . $action . " NOT FOUND";
             return false;
         }
         $obj->$action($arr);

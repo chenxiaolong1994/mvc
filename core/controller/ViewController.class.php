@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2015/9/25
- * Time: 0:52
- */
 class ViewController
 {
     public $tplfile = '';
@@ -16,7 +10,7 @@ class ViewController
 public function display($tpl=NULL) {
     if ($tpl !== NULL) $this->tplfile=$tpl;
     if (!(file_exists($this->tplfile))) {
-        echo $this->tplfile . "模板文件不存在";
+        echo $this->tplfile . "template file not found";
         return false;
     }
     if ($this->data != NULL) {

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2015/9/23
- * Time: 13:45
- */
-
 define('APP_PATH',ROOT . '/app/');
 define('DATA_PATH',ROOT . '/data/');
 define('LOG_PATH',ROOT . '/data/logs/');
@@ -19,9 +12,9 @@ define('VIEW_PATH',ROOT . '/app/view/');
 define('CORE_CONTROLLER',ROOT . '/core/controller/');
 
 //database config
-define("DB_HOST","localhost");
+define("DB_HOST","127.0.0.1");
 define("DB_USER","root");
-define("DB_PWD","1234");
+define("DB_PWD","8731787");
 define("DB_NAME","mvc");
 define("DB_PREFIX","cx_");
 
